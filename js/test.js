@@ -62,9 +62,10 @@ $(document).ready(function() {
             if (response.success) {
            // personnalisation du message utilisateur participe à un chat
            user_pseudo=response.data.pseudo;
-           alert("Utilisateur "+user_pseudo+" Vient de rejoindre le chat n°"+chatId);
-              
-            //   window.location.href = 'chat.html';
+           userId=response.data.id;
+           alert(" l'Utilisateur "+user_pseudo+":   "+userId+" Vient de rejoindre le chat n°"+chatId);
+           localStorage.setItem('userId', userId);
+            window.location.href = 'chat.html';
             }
           },
           error: function(error) {
@@ -82,28 +83,30 @@ $(document).ready(function() {
     
       // Récupérer le chatId depuis le localStorage
       var chatId = localStorage.getItem('chatId');
-      alert(chatId);
+      var userId=localStorage.getItem('userId');
   
       // Vérification du contenu du message
       if (messageInput !== '') {
         // Appel de la fonction pour envoyer le message après avoir mis à jour chatId
-        sendMessage(messageInput,chatId);
+        sendMessage(messageInput,chatId,userId);
       }
     });
   
     // Fonction pour envoyer un message
-    function sendMessage(messageInput,chatId) {
+    function sendMessage(messageInput,chatId,userId) {
     
       if (messageInput !== '') {
         var message = {
           contenu: messageInput,
           id_chat: chatId, // Utiliser la valeur de chatId
+          id_utilisateur: userId,
           timestamp: new Date().toISOString()
         };
   
         console.log(messageInput);
         $.ajax({
           url: 'message.php',
+          dataType: 'json',
           type: 'POST',
           data: message,
           success: function(response) {

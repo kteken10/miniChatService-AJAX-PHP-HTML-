@@ -14,7 +14,15 @@ h1 {
   justify-content: center;
   cursor: pointer;
 }
+#send{
+  margin: 3px;
+}
 
+  /* Ajouter une largeur personnalisée pour le formulaire */
+  #pseudo-form,#chat-list {
+    max-width: 400px;
+    margin: 0 auto;
+  }
 
 .chat-item {
   background-color: #f0f0f0;
@@ -23,7 +31,7 @@ h1 {
   padding: 10px;
   margin: 10px;
   cursor: pointer;
-  max-width: 300px;
+  /* max-width: 300px; */
   text-align: center;
 }
 
@@ -41,14 +49,28 @@ h1 {
   margin: 10px;
   width: 200px;
 }
-
+.pseudo{
+  
+  margin-left: -215px;
+}
+#pseudo-form .form-group {
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  color: #080808;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
 #pseudo-form button {
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: #4bc0df;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: -210px;
+  margin-bottom: 10px;
 }
 
 #messages {
@@ -70,12 +92,20 @@ h1 {
 #message-form input[type="text"] {
   padding: 5px;
   width: 400px;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #3df700;
+  background-color: #000506;
 }
 
 #message-form button {
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: #4bc0df;
   color: #fff;
+  margin-left:4px;
+  max-height: 38px;
+  margin-top:-0.4px;
+  
   border: none;
   border-radius: 5px;
   cursor: pointer;

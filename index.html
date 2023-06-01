@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Chat - Accueil</title>
-  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="js/test.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <!-- <script src="js/test.js"></script> -->
+  <script src="js/utilisateur.js"></script>
+  <script src="js/chat.js"></script>
 </head>
 <body>
   <div class="container">
@@ -14,7 +17,7 @@
     <div id="chat-list" class="row"></div>
     <form id="pseudo-form" class="mt-3">
       <div class="form-group">
-        <label for="pseudo">
+        <label for="pseudo" class="pseudo" >
           <i class="fas fa-user"></i> Pseudo :
         </label>
         <input type="text" class="form-control" id="pseudo" name="pseudo" required>

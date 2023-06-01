@@ -18,7 +18,7 @@ class MessageController {
       'message' => 'Message créé avec succès',
       'data' => $message
     ];
-    echo json_encode($response);
+  echo json_encode($response);
   }
 
   // Méthode pour gérer la mise à jour d'un message
@@ -31,6 +31,7 @@ class MessageController {
         'success' => true,
         'message' => 'Message mis à jour avec succès'
       ];
+      
     } else {
       // Message non trouvé
       $response = [
@@ -76,14 +77,10 @@ switch ($method) {
      
         $data = $_POST;
        
-  
-        // Accéder aux valeurs du tableau associatif
-       
-    
-
         // Affichage des données pour débogage
         error_log('POST data: ' . print_r($data, true));
-
+        error_log('RESPONSE' . print_r($response, true));
+       
         // Appel de la méthode createMessage avec les données du message
         $messageController->createMessage($data);
         break;

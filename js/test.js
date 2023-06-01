@@ -11,15 +11,16 @@ $(document).ready(function() {
           if (response.success) {
             var chats = response.chats;
             var chatListDiv = $('#chat-list');
-            var selectChat = $('<select id="chat-select">');
+            var selectChat = $('<select id="chat-select" class="form-control">');
   
             // chatListDiv.empty();
-  
             for (var i = 0; i < chats.length; i++) {
-              var chat = chats[i];
-              var optionChat = $('<option>').val(chat.id).text(chat.nom);
-              selectChat.append(optionChat);
-            }
+                var chat = chats[i];
+                var optionChat = $('<option>').val(chat.id).text(chat.nom);
+                selectChat.append(optionChat);
+              }
+              
+              
   
             chatListDiv.append(selectChat);
           } else {

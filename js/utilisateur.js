@@ -21,8 +21,8 @@ $(document).ready(function() {
         localStorage.setItem('chatId', chatId);
         $.ajax({
           url: 'controller/Utilisateurcontroller.php',
-          dataType: 'json',
           type: 'POST',
+          dataType: 'json',
           data: {
             pseudo: pseudoInput
           },

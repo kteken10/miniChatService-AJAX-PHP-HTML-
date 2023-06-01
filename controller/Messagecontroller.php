@@ -18,7 +18,7 @@ class MessageController {
       'message' => 'Message créé avec succès',
       'data' => $message
     ];
-  echo json_encode($response);
+    echo json_encode($response);
   }
 
   // Méthode pour gérer la mise à jour d'un message
@@ -31,7 +31,6 @@ class MessageController {
         'success' => true,
         'message' => 'Message mis à jour avec succès'
       ];
-      
     } else {
       // Message non trouvé
       $response = [
@@ -63,6 +62,20 @@ class MessageController {
 
     echo json_encode($response);
   }
+
+  // Méthode pour récupérer tous les messages
+  public function getAllMessages() {
+    $messages = $this->messageService->getAllMessages();
+
+    // Préparer la réponse JSON
+    $response = [
+      'success' => true,
+      'message' => 'Messages récupérés avec succès',
+      'data' => $messages
+    ];
+
+    echo json_encode($response);
+  }
 }
 
 // Vérification de la méthode de la requête HTTP
@@ -73,52 +86,60 @@ $messageController = new MessageController();
 
 // Traitement des différentes méthodes de requête
 switch ($method) {
-    case 'POST':
-     
-        $data = $_POST;
-       
-        // Affichage des données pour débogage
-        error_log('POST data: ' . print_r($data, true));
-        error_log('RESPONSE' . print_r($response, true));
-       
-        // Appel de la méthode createMessage avec les données du message
-        $messageController->createMessage($data);
-        break;
+  case 'GET':
+    // Vérifier si l'URL a un paramètre "all"
+    if (isset($_GET['all'])) {
+      // Appel de la méthode getAllMessages
+      $messageController->getAllMessages();
+    } else {
+      // Méthode non prise en charge
+      $response = [
+        'success' => false,
+        'message' => 'Méthode non prise en charge'
+      ];
 
-    case 'PUT':
-        // Récupération des données JSON de la requête
-        $data = json_decode(file_get_contents('php://input'), true);
+      // Affichage de l'erreur pour débogage
+      error_log('Unsupported method: ' . $method);
+      echo json_encode($response);
+    }
+    break;
 
-        // Affichage des données pour débogage
-        error_log('PUT data: ' . print_r($data, true));
+  case 'POST':
+    $data = $_POST;
+    // Affichage des données pour débogage
+    error_log('POST data: ' . print_r($data, true));
+    // Appel de la méthode createMessage avec les données du message
+    $messageController->createMessage($data);
+    break;
 
-        // Appel de la méthode updateMessage avec les données du message
-        $messageController->updateMessage($data);
-        break;
+  case 'PUT':
+    // Récupération des données JSON de la requête
+    $data = json_decode(file_get_contents('php://input'), true);
+    // Affichage des données pour débogage
+    error_log('PUT data: ' . print_r($data, true));
+    // Appel de la méthode updateMessage avec les données du message
+    $messageController->updateMessage($data);
+    break;
 
-    case 'DELETE':
-        // Récupération de l'ID du message à supprimer
-        $id = $_GET['id'];
+  case 'DELETE':
+    // Récupération de l'ID du message à supprimer
+    $id = $_GET['id'];
+    // Affichage de l'ID pour débogage
+    error_log('DELETE message ID: ' . $id);
+    // Appel de la méthode deleteMessage avec l'ID du message
+    $messageController->deleteMessage($id);
+    break;
 
-        // Affichage de l'ID pour débogage
-        error_log('DELETE message ID: ' . $id);
+  default:
+    // Méthode non prise en charge
+    $response = [
+      'success' => false,
+      'message' => 'Méthode non prise en charge'
+    ];
 
-        // Appel de la méthode deleteMessage avec l'ID du message
-        $messageController->deleteMessage($id);
-        break;
-
-    default:
-        // Méthode non prise en charge
-        $response = [
-            'success' => false,
-            'message' => 'Méthode non prise en charge'
-        ];
-
-        // Affichage de l'erreur pour débogage
-        error_log('Unsupported method: ' . $method);
-        echo json_encode($response);
-        break;
+    // Affichage de l'erreur pour débogage
+    error_log('Unsupported method: ' . $method);
+    echo json_encode($response);
+    break;
 }
-
-
 ?>

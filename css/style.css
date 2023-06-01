@@ -81,12 +81,14 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow-y: scroll;
-  max-height: 400px;
+  height: 300px;
+  max-height:300px ;
 }
 
 #message-form {
   text-align: center;
   margin-top: 20px;
+ 
 }
 
 #message-form input[type="text"] {

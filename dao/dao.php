@@ -141,6 +141,7 @@ class MessageDAO {
     return $pdo->lastInsertId();
   }
 
+  
   // Méthode pour mettre à jour un message dans la base de données
   public function update($message) {
     // Connexion à la base de données
@@ -157,6 +158,42 @@ class MessageDAO {
     return $statement->rowCount() > 0;
   }
 
+  public function getAll() {
+    // Connexion à la base de données (remplacez les informations appropriées)
+    $pdo = new PDO("mysql:host=localhost;dbname=chat_db", "root", "");
+    
+    // Requête SQL pour récupérer tous les messages
+    $query = "SELECT * FROM messages";
+    
+    // Préparation de la requête
+    $stmt = $pdo->prepare($query);
+    
+    // Exécution de la requête
+    $stmt->execute();
+    
+    // Récupération des résultats
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $messages;
+  }
+
+  // Méthode pour récupérer un message par son ID
+  public function getById($id) {
+    // Connexion à la base de données
+    $pdo = new PDO("mysql:host=localhost;dbname=chat_db", "root", "");
+
+    // Requête SQL pour récupérer le message par son ID
+    $query = "SELECT * FROM messages WHERE id = :id";
+    $statement = $pdo->prepare($query);
+    $statement->bindParam(":id", $id);
+    $statement->execute();
+
+    // Récupération des données
+    $message = $statement->fetch(PDO::FETCH_ASSOC);
+
+    // Retourne le message (ou null s'il n'existe pas)
+    return $message ? $message : null;
+  }
   // Méthode pour supprimer un message de la base de données
   public function delete($id) {
     // Connexion à la base de données

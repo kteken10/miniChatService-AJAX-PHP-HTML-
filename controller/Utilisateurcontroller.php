@@ -1,7 +1,6 @@
 <?php
 require_once 'C:\wamp64\www\Yossa\gaetan_yossa_chat\gaetan_yossa_chat\services\services.php';
 
-
 // Contrôleur pour gérer les requêtes relatives aux utilisateurs
 class UtilisateurController {
   private $utilisateurService;
@@ -14,25 +13,28 @@ class UtilisateurController {
   public function createUtilisateur($pseudo) {
     // Vérification des paramètres requis
     if (!empty($pseudo)) {
-      $utilisateur = $this->utilisateurService->createUtilisateur($pseudo);
-      if ($utilisateur == null){
-        
+      $utilisateur = $this->utilisateurService->getUtilisateurByPseudo($pseudo);
+      
+      if ($utilisateur) {
+        // L'utilisateur existe déjà
         $response = [
           'success' => false,
-          'message' => 'Utilisateur existant'
-         
+          'message' => 'L\'utilisateur existe déjà'
         ];
-        echo json_encode($response);
+      } else {
+        // Créer un nouvel utilisateur
+        $utilisateur = $this->utilisateurService->createUtilisateur($pseudo);
+        
+        // Préparer la réponse JSON
+        $response = [
+          'success' => true,
+          'message' => 'Utilisateur créé avec succès',
+          'data' => $utilisateur
+        ];
       }
-      // Préparer la réponse JSON
-      $response = [
-        'success' => true,
-        'message' => 'Utilisateur créé avec succès',
-        'data' => $utilisateur
-      ];
+      
       echo json_encode($response);
-    } 
-    else {
+    } else {
       // Paramètres manquants
       $response = [
         'success' => false,
@@ -41,7 +43,8 @@ class UtilisateurController {
       echo json_encode($response);
     }
   }
-  //fonction pour mettre a jour un utilisateur
+
+  // Fonction pour mettre à jour un utilisateur
   public function updateUtilisateur($id, $pseudo) {
     $utilisateur = $this->utilisateurService->getUtilisateurById($id);
 
@@ -65,7 +68,7 @@ class UtilisateurController {
     echo json_encode($response);
   }
 
-  //Méthode pour gérer la suppression d'un utilisateur
+  // Méthode pour gérer la suppression d'un utilisateur
   public function deleteUtilisateur($id) {
     $success = $this->utilisateurService->deleteUtilisateur($id);
 
@@ -82,21 +85,19 @@ class UtilisateurController {
         'success' => false,
         'message' => 'Utilisateur non trouvé'
       ];
+      echo json_encode($response);
     }
-
-    echo json_encode($response);
   }
 }
 
 // Utilisation de la classe UtilisateurController
 $utilisateurController = new UtilisateurController();
 
-// Vérification de la présence des paramètres "pseudo"  dans la requête POST
+// Vérification de la présence des paramètres "pseudo" dans la requête POST
 if (isset($_POST['pseudo'])) {
   $pseudo = $_POST['pseudo'];
  
   $utilisateurController->createUtilisateur($pseudo);
 } 
-
 
 ?>

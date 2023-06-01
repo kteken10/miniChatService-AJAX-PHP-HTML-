@@ -78,5 +78,18 @@ class MessageService {
   public function deleteMessage($id) {
     return $this->messageDAO->delete($id);
   }
+   // Méthode pour récupérer tous les messages
+   public function getAllMessages() {
+    // Appel de la méthode getAll du MessageDAO pour récupérer tous les messages de la base de données
+    $messages = $this->messageDAO->getAll();
+
+    return $messages;
+  }
+
+  // Méthode pour récupérer un message par son ID
+  public function getMessageById($id) {
+    return $this->messageDAO->getById($id);
+  }
 }
+
 ?>

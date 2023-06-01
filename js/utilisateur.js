@@ -9,7 +9,7 @@ $(document).ready(function() {
       chatId = chatSelect.val(); // Assigner la valeur de chat-select à la variable globale chatId
   
       var pseudoInput = $('#pseudo').val();
-  
+      localStorage.setItem('userPseudo', pseudoInput);
       if (pseudoInput !== '') {
         selectChat(pseudoInput);
       }
@@ -29,15 +29,19 @@ $(document).ready(function() {
           success: function(response) {
             if (response.success) {
            // personnalisation du message utilisateur participe à un chat
-           userPseudo=response.data.pseudo;
+           userPseudo=localStorage.getItem('userPseudo');
            userId=response.data.id;
            alert(" l'Utilisateur "+userPseudo+":   "+userId+" Vient de rejoindre le chat n°"+chatId);
            localStorage.setItem('userId', userId);
             window.location.href = 'chat.html';
             }
+            else{
+              userPseudo=localStorage.getItem('userPseudo');
+              alert("Action Impossible !! le pseudo "+userPseudo+ " existe déja");
+            }
           },
           error: function(error) {
-            console.error('Erreur lors de la création de l\'utilisateur :', error.responseText);
+            alert("Erreur de la création d'un nouveau Chateur");
           }
         });
       }

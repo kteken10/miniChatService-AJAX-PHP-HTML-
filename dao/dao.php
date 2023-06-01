@@ -37,6 +37,7 @@ class UtilisateurDAO {
     return $utilisateur ? $utilisateur : null;
   }
 
+
   // Méthode pour insérer un nouvel utilisateur dans la base de données
   public function insert($pseudo) {
     // Connexion à la base de données
@@ -141,7 +142,7 @@ class MessageDAO {
     return $pdo->lastInsertId();
   }
 
-  
+ 
   // Méthode pour mettre à jour un message dans la base de données
   public function update($message) {
     // Connexion à la base de données
@@ -157,25 +158,24 @@ class MessageDAO {
     // Retourne true si la mise à jour a réussi, sinon false
     return $statement->rowCount() > 0;
   }
-
-  public function getAll() {
-    // Connexion à la base de données (remplacez les informations appropriées)
+  // Méthode pour récupérer les messages par l'ID du chat
+  public function getMessagesByChat($chatId) {
+    // Connexion à la base de données
     $pdo = new PDO("mysql:host=localhost;dbname=chat_db", "root", "");
-    
-    // Requête SQL pour récupérer tous les messages
-    $query = "SELECT * FROM messages";
-    
-    // Préparation de la requête
-    $stmt = $pdo->prepare($query);
-    
-    // Exécution de la requête
-    $stmt->execute();
-    
-    // Récupération des résultats
-    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    return $messages;
+
+    // Requête SQL pour récupérer les messages par l'ID du chat
+    $query = "SELECT * FROM messages WHERE id_chat = :chatId";
+    $statement = $pdo->prepare($query);
+    $statement->bindParam(":chatId", $chatId);
+    $statement->execute();
+
+    // Récupération des données
+    $messages = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    // Retourne les messages (ou un tableau vide s'il n'y en a pas)
+    return $messages ? $messages : [];
   }
+
 
   // Méthode pour récupérer un message par son ID
   public function getById($id) {

@@ -67,6 +67,20 @@ class UtilisateurController {
 
     echo json_encode($response);
   }
+  public function getMessagesByChat($chatId) {
+    // Code pour récupérer les messages en fonction de l'ID du chat
+    $messages = $this->messageService->getMessagesByChat($chatId);
+    // ...
+  
+    // Préparer la réponse JSON
+    $response = [
+      'success' => true,
+      'message' => 'Messages récupérés avec succès',
+      'data' => $messages
+    ];
+  
+    echo json_encode($response);
+  }
 
   // Méthode pour gérer la suppression d'un utilisateur
   public function deleteUtilisateur($id) {

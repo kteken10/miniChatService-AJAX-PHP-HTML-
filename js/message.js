@@ -37,7 +37,7 @@ $(document).ready(function() {
             // Effacer le champ de saisie
             $('#message-input').val('');
             // Mettre à jour les messages affichés
-            getMessages();
+            getMessages(chatId); // Passer le chatId à la fonction getMessages
           } else {
             console.error('Erreur lors de l\'envoi du message :', response.message);
           }
@@ -49,14 +49,16 @@ $(document).ready(function() {
     }
   }
 
- 
-   // Fonction pour récupérer les messages depuis le serveur
-   function getMessages() {
+  // Fonction pour récupérer les messages depuis le serveur
+  function getMessages(chatId) {
     console.log("rafraichissement");
     $.ajax({
-      url: 'controller/Messagecontroller.php?all=true',
+      url: 'controller/Messagecontroller.php',
       type: 'GET',
       dataType: 'json',
+      data: {
+        chatId: chatId // Passer le chatId en tant que paramètre de requête
+      },
       success: function(response) {
         var messagesContainer = $('#messages');
         messagesContainer.empty();
@@ -74,9 +76,7 @@ $(document).ready(function() {
         });
 
         // Faire défiler jusqu'au bas du conteneur des messages
-       
         messagesContainer.scrollTop(messagesContainer.prop('scrollHeight'));
-       
       },
       error: function(error) {
         console.error('Erreur lors de la récupération des messages :', error);
@@ -88,10 +88,13 @@ $(document).ready(function() {
 
   // Appeler la fonction getMessages() au chargement de la page de chat
   if (window.location.pathname === '/Yossa/gaetan_yossa_chat/gaetan_yossa_chat/chat.html') {
-    getMessages();
+    // Récupérer le chatId depuis le localStorage
+    var chatId = localStorage.getItem('chatId');
+    getMessages(chatId); // Passer le chatId à la fonction getMessages
+
     // Rafraîchir les messages toutes les 5 secondes
-    setInterval(getMessages, 4000);
-    
+    setInterval(function() {
+      getMessages(chatId); // Passer le chatId à la fonction getMessages
+    }, 5000);
   }
 });
- 

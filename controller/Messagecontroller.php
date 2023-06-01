@@ -63,18 +63,10 @@ class MessageController {
     echo json_encode($response);
   }
 
-  // Méthode pour récupérer tous les messages
-  public function getAllMessages() {
-    $messages = $this->messageService->getAllMessages();
-
-    // Préparer la réponse JSON
-    $response = [
-      'success' => true,
-      'message' => 'Messages récupérés avec succès',
-      'data' => $messages
-    ];
-
-    echo json_encode($response);
+  public function getMessagesByChat($chatId) {
+    // Code pour récupérer les messages en fonction de l'ID du chat
+    $messages = $this->messageService->getMessagesByChat($chatId);
+    // ...
   }
 }
 
@@ -87,19 +79,17 @@ $messageController = new MessageController();
 // Traitement des différentes méthodes de requête
 switch ($method) {
   case 'GET':
-    // Vérifier si l'URL a un paramètre "all"
-    if (isset($_GET['all'])) {
-      // Appel de la méthode getAllMessages
-      $messageController->getAllMessages();
+    // Récupération de l'ID du chat depuis la requête
+    if (isset($_GET['chatId'])) {
+      $chatId = $_GET['chatId'];
+      // Appel de la méthode getMessagesByChat avec l'ID du chat
+      $messageController->getMessagesByChat($chatId);
     } else {
-      // Méthode non prise en charge
+      // Paramètre manquant dans la requête
       $response = [
         'success' => false,
-        'message' => 'Méthode non prise en charge'
+        'message' => 'Paramètre manquant dans la requête'
       ];
-
-      // Affichage de l'erreur pour débogage
-      error_log('Unsupported method: ' . $method);
       echo json_encode($response);
     }
     break;

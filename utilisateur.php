@@ -15,6 +15,15 @@ class UtilisateurController {
     // Vérification des paramètres requis
     if (!empty($pseudo)) {
       $utilisateur = $this->utilisateurService->createUtilisateur($pseudo);
+      if ($utilisateur == null){
+        
+        $response = [
+          'success' => false,
+          'message' => 'Utilisateur existant'
+         
+        ];
+        echo json_encode($response);
+      }
       // Préparer la réponse JSON
       $response = [
         'success' => true,
@@ -22,7 +31,8 @@ class UtilisateurController {
         'data' => $utilisateur
       ];
       echo json_encode($response);
-    } else {
+    } 
+    else {
       // Paramètres manquants
       $response = [
         'success' => false,
@@ -65,6 +75,7 @@ class UtilisateurController {
         'success' => true,
         'message' => 'Utilisateur supprimé avec succès'
       ];
+      echo json_encode($response);
     } else {
       // Utilisateur non trouvé
       $response = [
@@ -80,10 +91,10 @@ class UtilisateurController {
 // Utilisation de la classe UtilisateurController
 $utilisateurController = new UtilisateurController();
 
-// Vérification de la présence des paramètres "pseudo" et "chatId" dans la requête POST
-if (isset($_POST['pseudo']) && isset($_POST['chatId'])) {
+// Vérification de la présence des paramètres "pseudo"  dans la requête POST
+if (isset($_POST['pseudo'])) {
   $pseudo = $_POST['pseudo'];
-  $chatId = $_POST['chatId'];
+ 
   $utilisateurController->createUtilisateur($pseudo);
 } 
 

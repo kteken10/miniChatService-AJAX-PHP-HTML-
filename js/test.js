@@ -48,18 +48,22 @@ $(document).ready(function() {
   
     function selectChat(pseudoInput) {
       if (pseudoInput !== '' && chatId !== '') {
+       
         localStorage.setItem('chatId', chatId);
         $.ajax({
           url: 'utilisateur.php',
+          dataType: 'json',
           type: 'POST',
           data: {
-            pseudo: pseudoInput,
-            chatId: chatId
+            pseudo: pseudoInput
           },
           success: function(response) {
-            if (!response.success) {
-              console.log('Tout fonctionne correctement.');
-              window.location.href = 'chat.html';
+            if (response.success) {
+           // personnalisation du message utilisateur participe à un chat
+           user_pseudo=response.data.pseudo;
+           alert("Utilisateur "+user_pseudo+" Vient de rejoindre le chat n°"+chatId);
+              
+            //   window.location.href = 'chat.html';
             }
           },
           error: function(error) {

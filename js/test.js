@@ -1,11 +1,7 @@
 $(document).ready(function() {
-    // GESTION DES CHATS (récupération des chats)
+    var chatId; // Variable globale accessible à toutes les autres fonctions
   
     // Fonction pour récupérer et afficher la liste des chats
-    afficherListeChats();
-
-    //Variabl globales accessible à toutes les autres fonction
-   
     function afficherListeChats() {
       $.ajax({
         url: 'controller.php',
@@ -17,7 +13,7 @@ $(document).ready(function() {
             var chatListDiv = $('#chat-list');
             var selectChat = $('<select id="chat-select">');
   
-            chatListDiv.empty();
+            // chatListDiv.empty();
   
             for (var i = 0; i < chats.length; i++) {
               var chat = chats[i];
@@ -36,27 +32,23 @@ $(document).ready(function() {
       });
     }
   
-    // Gestion des Utilisateurs
-  
     // Gestionnaire d'événement pour la soumission du formulaire
     $('#pseudo-form').submit(function(event) {
       event.preventDefault();
   
-       chatSelect = $('#chat-select');
-       chatId = chatSelect.val();
-      
+      var chatSelect = $('#chat-select');
+      chatId = chatSelect.val(); // Assigner la valeur de chat-select à la variable globale chatId
+  
       var pseudoInput = $('#pseudo').val();
-     
   
       if (pseudoInput !== '') {
-        selectChat(chatId, pseudoInput);
+        selectChat(pseudoInput);
       }
     });
-
-    function selectChat(chatId, pseudoInput) {
-     
-      
+  
+    function selectChat(pseudoInput) {
       if (pseudoInput !== '' && chatId !== '') {
+        localStorage.setItem('chatId', chatId);
         $.ajax({
           url: 'utilisateur.php',
           type: 'POST',
@@ -82,24 +74,28 @@ $(document).ready(function() {
   
       // Récupération du contenu du message
       var messageInput = $('#message-input').val();
+    
+      // Récupérer le chatId depuis le localStorage
+      var chatId = localStorage.getItem('chatId');
+      alert(chatId);
   
       // Vérification du contenu du message
       if (messageInput !== '') {
-        // Appel de la fonction pour envoyer le message
-        sendMessage(messageInput);
+        // Appel de la fonction pour envoyer le message après avoir mis à jour chatId
+        sendMessage(messageInput,chatId);
       }
     });
   
-  
     // Fonction pour envoyer un message
-    function sendMessage(messageInput) {
+    function sendMessage(messageInput,chatId) {
+    
       if (messageInput !== '') {
         var message = {
           contenu: messageInput,
-          id_chat: 2,
+          id_chat: chatId, // Utiliser la valeur de chatId
           timestamp: new Date().toISOString()
         };
-       
+  
         console.log(messageInput);
         $.ajax({
           url: 'message.php',
@@ -152,6 +148,9 @@ $(document).ready(function() {
         }
       });
     }
+  
+    // Appeler la fonction pour récupérer la liste des chats au chargement de la page
+    afficherListeChats();
   
     // Appeler la fonction getMessages() au chargement de la page de chat
     if (window.location.pathname === '/chat.html') {

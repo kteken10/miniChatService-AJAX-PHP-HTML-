@@ -9,6 +9,9 @@ class MessageController {
     $this->messageService = new MessageService();
   }
 
+
+
+
   // Méthode pour gérer la création d'un message
   public function createMessage($message) {
     $message = $this->messageService->createMessage($message);
@@ -66,6 +69,12 @@ class MessageController {
   public function getMessagesByChat($chatId) {
     // Code pour récupérer les messages en fonction de l'ID du chat
     $messages = $this->messageService->getMessagesByChat($chatId);
+    // Préparer la réponse JSON
+    $response = [
+      'success' => true,
+      'data' => $messages
+    ];
+    echo json_encode($response);
     // ...
   }
 }
@@ -82,6 +91,8 @@ switch ($method) {
     // Récupération de l'ID du chat depuis la requête
     if (isset($_GET['chatId'])) {
       $chatId = $_GET['chatId'];
+      
+    
       // Appel de la méthode getMessagesByChat avec l'ID du chat
       $messageController->getMessagesByChat($chatId);
     } else {
@@ -99,7 +110,7 @@ switch ($method) {
     // Affichage des données pour débogage
     error_log('POST data: ' . print_r($data, true));
     // Appel de la méthode createMessage avec les données du message
-    $messageController->createMessage($data);
+    $message=$messageController->createMessage($data);
     break;
 
   case 'PUT':

@@ -31,7 +31,7 @@ $(document).ready(function() {
   
         console.log(messageInput);
         $.ajax({
-          url: 'message.php',
+          url: 'controller/Messagecontroller.php',
           dataType: 'json',
           type: 'POST',
           data: message,
@@ -83,8 +83,7 @@ $(document).ready(function() {
       });
     }
   
-    // Appeler la fonction pour récupérer la liste des chats au chargement de la page
-    afficherListeChats();
+  
   
     // Appeler la fonction getMessages() au chargement de la page de chat
     if (window.location.pathname === '/chat.html') {

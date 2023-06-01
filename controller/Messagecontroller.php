@@ -1,5 +1,5 @@
 <?php
-require_once 'services.php';
+require_once 'C:\wamp64\www\Yossa\gaetan_yossa_chat\gaetan_yossa_chat\services\services.php';
 
 // Contrôleur pour gérer les requêtes relatives aux messages
 class MessageController {

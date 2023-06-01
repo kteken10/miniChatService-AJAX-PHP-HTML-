@@ -20,7 +20,7 @@ $(document).ready(function() {
        
         localStorage.setItem('chatId', chatId);
         $.ajax({
-          url: 'utilisateur.php',
+          url: 'controller/Utilisateurcontroller.php',
           dataType: 'json',
           type: 'POST',
           data: {

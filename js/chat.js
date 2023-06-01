@@ -4,7 +4,7 @@ $(document).ready(function() {
     // Fonction pour récupérer et afficher la liste des chats
     function afficherListeChats() {
       $.ajax({
-        url: 'controller.php',
+        url: 'controller/Chatcontroller.php',
         type: 'GET',
         dataType: 'json',
         success: function(response) {

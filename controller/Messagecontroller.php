@@ -75,7 +75,7 @@ class MessageController {
       'data' => $messages
     ];
     echo json_encode($response);
-    // ...
+    
   }
 }
 
@@ -91,10 +91,10 @@ switch ($method) {
     // Récupération de l'ID du chat depuis la requête
     if (isset($_GET['chatId'])) {
       $chatId = $_GET['chatId'];
-      
-    
+
       // Appel de la méthode getMessagesByChat avec l'ID du chat
       $messageController->getMessagesByChat($chatId);
+
     } else {
       // Paramètre manquant dans la requête
       $response = [

@@ -26,7 +26,7 @@ $(document).ready(function() {
         timestamp: new Date().toISOString()
       };
 
-      console.log(messageInput);
+      console.log("envoi du message");
       $.ajax({
         url: 'controller/Messagecontroller.php',
         dataType: 'json',
@@ -51,7 +51,7 @@ $(document).ready(function() {
 
   // Fonction pour récupérer les messages depuis le serveur
   function getMessages(chatId) {
-    console.log("rafraichissement");
+   
     $.ajax({
       url: 'controller/Messagecontroller.php',
       type: 'GET',

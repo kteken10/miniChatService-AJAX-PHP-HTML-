@@ -17,7 +17,6 @@ $(document).ready(function() {
   
     function selectChat(pseudoInput) {
       if (pseudoInput !== '' && chatId !== '') {
-       
         localStorage.setItem('chatId', chatId);
         $.ajax({
           url: 'controller/Utilisateurcontroller.php',
@@ -28,24 +27,48 @@ $(document).ready(function() {
           },
           success: function(response) {
             if (response.success) {
-           // personnalisation du message utilisateur participe à un chat
-           userPseudo=localStorage.getItem('userPseudo');
-           userId=response.data.id;
-           alert(" l'Utilisateur "+userPseudo+":   "+userId+" Vient de rejoindre le chat n°"+chatId);
-           localStorage.setItem('userId', userId);
-            window.location.href = 'chat.html';
-            }
-            else{
+              // Afficher un message de succès
               userPseudo=localStorage.getItem('userPseudo');
-              alert("Action Impossible !! le pseudo "+userPseudo+ " existe déja");
+              chatId=localStorage.getItem('chatId');
+              Swal.fire({
+                icon: 'success',
+                title: 'Bienvenue',
+                text: `L'utilisateur ${userPseudo} a rejoint le chat n°${chatId}`,
+                confirmButtonText: 'OK'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Rediriger vers la page du chat
+                  window.location.href = 'chat.html';
+                }
+              });
+            } else {
+              // Afficher un message d'erreur
+              userPseudo=localStorage.getItem('userPseudo');
+              Swal.fire({
+                icon: 'error',
+                title: 'Action impossible',
+                text: `Le pseudo ${userPseudo} existe déjà!! veuillez choisir un autre pseudo`,
+                confirmButtonText: 'OK'
+              });
             }
           },
           error: function(error) {
-            alert("Erreur de la création d'un nouveau Chateur");
+            // Afficher un message d'erreur
+            Swal.fire({
+              icon: 'error',
+              title: 'Erreur',
+              text: 'Erreur lors de la création d\'un nouveau Chatteur',
+              confirmButtonText: 'OK'
+            });
           }
         });
       }
-    }    
+    }
+    
+    
+
+
+
    
   });
   

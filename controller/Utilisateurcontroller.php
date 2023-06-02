@@ -44,6 +44,30 @@ class UtilisateurController {
     }
   }
 
+  // Méthode pour récupérer un utilisateur par son userId
+  public function getUtilisateurById($userId) {
+    $utilisateur = $this->utilisateurService->getUtilisateurById($userId);
+
+    if ($utilisateur) {
+      // Préparer la réponse JSON
+      $response = [
+        'success' => true,
+        'data' => [
+          'pseudo' => $utilisateur['pseudo']
+          // Ajoutez d'autres informations d'utilisateur si nécessaire
+        ]
+      ];
+    } else {
+      // Utilisateur non trouvé
+      $response = [
+        'success' => false,
+        'message' => 'Utilisateur introuvable'
+      ];
+    }
+
+    echo json_encode($response);
+  }
+
   // Fonction pour mettre à jour un utilisateur
   public function updateUtilisateur($id, $pseudo) {
     $utilisateur = $this->utilisateurService->getUtilisateurById($id);
@@ -65,20 +89,6 @@ class UtilisateurController {
       ];
     }
 
-    echo json_encode($response);
-  }
-  public function getMessagesByChat($chatId) {
-    // Code pour récupérer les messages en fonction de l'ID du chat
-    $messages = $this->messageService->getMessagesByChat($chatId);
-    // ...
-  
-    // Préparer la réponse JSON
-    $response = [
-      'success' => true,
-      'message' => 'Messages récupérés avec succès',
-      'data' => $messages
-    ];
-  
     echo json_encode($response);
   }
 
@@ -107,11 +117,35 @@ class UtilisateurController {
 // Utilisation de la classe UtilisateurController
 $utilisateurController = new UtilisateurController();
 
-// Vérification de la présence des paramètres "pseudo" dans la requête POST
-if (isset($_POST['pseudo'])) {
-  $pseudo = $_POST['pseudo'];
- 
-  $utilisateurController->createUtilisateur($pseudo);
-} 
+// Vérification du type de requête
+$requestMethod = $_SERVER['REQUEST_METHOD'];
+
+switch ($requestMethod) {
+  case 'POST':
+    // Vérification de la présence des paramètres "pseudo" dans la requête POST
+    if (isset($_POST['pseudo'])) {
+      $pseudo = $_POST['pseudo'];
+      $utilisateurController->createUtilisateur($pseudo);
+    }
+    break;
+
+  case 'GET':
+    // Vérification de la présence du paramètre "userId" dans la requête GET
+    if (isset($_GET['userId'])) {
+      $userId = $_GET['userId'];
+      $utilisateurController->getUtilisateurById($userId);
+    }
+    break;
+
+  default:
+    // Requête non prise en charge
+    $response = [
+      'success' => false,
+      'message' => 'Requête non prise en charge'
+    ];
+    echo json_encode($response);
+    break;
+}
+
 
 ?>

@@ -63,23 +63,24 @@ $(document).ready(function() {
         var messagesContainer = $('#messages');
         messagesContainer.empty();
 
-        // Convertir la réponse JSON en tableau
         var messages = Array.isArray(response.data) ? response.data : [response.data];
-        console.log(messages[0]);
-
-        messages.forEach(function(message) {
+        var messagesContainer = $('#messages');
+        messagesContainer.empty();
+        
+        for (var i = 0; i < messages.length; i++) {
+          var message = messages[i];
+          getUser(message.id_utilisateur);
+          // console.log(user_pseudo);
           var messageContainer = $('<div>').addClass('message-container');
           var userPseudo = localStorage.getItem('userPseudo');
-          
+        
           var userElement = $('<div>').addClass('message-user').text(userPseudo);
           var contentElement = $('<div>').addClass('message-content').text(message.contenu);
           var timestampElement = $('<div>').addClass('message-timestamp').text(message.date_creation);
         
-        
-          
           messageContainer.append(userElement, contentElement, timestampElement);
           messagesContainer.append(messageContainer);
-        });
+        }
 
         // Faire défiler jusqu'au bas du conteneur des messages
         messagesContainer.scrollTop(messagesContainer.prop('scrollHeight'));
@@ -100,7 +101,7 @@ $(document).ready(function() {
       },
       success: function(response) {
         if (response.success) {
-          var userPseudo = response.data.pseudo;
+          var userPseudo = response.pseudo;
           localStorage.setItem('userPseudo', userPseudo);
         } else {
           console.error('Erreur lors de la récupération de l\'utilisateur :', response.message);

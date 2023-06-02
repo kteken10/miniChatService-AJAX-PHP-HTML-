@@ -53,7 +53,7 @@ class UtilisateurController {
       $response = [
         'success' => true,
         'data' => [
-          'pseudo' => $utilisateur['pseudo']
+        'pseudo' => $utilisateur['pseudo']
           // Ajoutez d'autres informations d'utilisateur si nécessaire
         ]
       ];

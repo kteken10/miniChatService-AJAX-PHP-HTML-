@@ -65,14 +65,20 @@ $(document).ready(function() {
 
         // Convertir la réponse JSON en tableau
         var messages = Array.isArray(response.data) ? response.data : [response.data];
+        console.log(messages[0]);
 
         messages.forEach(function(message) {
-          var messageItem = $('<div>').addClass('message-item');
-          messageItem.html(`
-            <p>${message.contenu}</p>
-            <span>${message.timestamp}</span>
-          `);
-          messagesContainer.append(messageItem);
+          var messageContainer = $('<div>').addClass('message-container');
+          var userPseudo = localStorage.getItem('userPseudo');
+          
+          var userElement = $('<div>').addClass('message-user').text(userPseudo);
+          var contentElement = $('<div>').addClass('message-content').text(message.contenu);
+          var timestampElement = $('<div>').addClass('message-timestamp').text(message.date_creation);
+        
+        
+          
+          messageContainer.append(userElement, contentElement, timestampElement);
+          messagesContainer.append(messageContainer);
         });
 
         // Faire défiler jusqu'au bas du conteneur des messages
@@ -80,6 +86,28 @@ $(document).ready(function() {
       },
       error: function(error) {
         console.error('Erreur lors de la récupération des messages :', error);
+      }
+    });
+  }
+
+  function getUser(userId) {
+    $.ajax({
+      url: 'controller/UserController.php',
+      type: 'GET',
+      dataType: 'json',
+      data: {
+        userId: userId // Passer le userId en tant que paramètre de requête
+      },
+      success: function(response) {
+        if (response.success) {
+          var userPseudo = response.data.pseudo;
+          localStorage.setItem('userPseudo', userPseudo);
+        } else {
+          console.error('Erreur lors de la récupération de l\'utilisateur :', response.message);
+        }
+      },
+      error: function(error) {
+        console.error('Erreur lors de la récupération de l\'utilisateur :', error);
       }
     });
   }

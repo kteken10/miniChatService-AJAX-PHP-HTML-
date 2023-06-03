@@ -72,7 +72,7 @@ $(document).ready(function() {
     });
   }
 
-  // Fonction pour afficher les messages
+  
  // Fonction pour afficher les messages
 function displayMessages(messages) {
   var messagesContainer = $('#messages');
@@ -107,28 +107,36 @@ function displayMessages(messages) {
           // Obtenir l'identifiant du message à modifier
           var messageId = messageContainer.data('message-id');
 
-          // Obtenir le contenu actuel du message
-          var currentContent = messageContainer.find('.message-content').text();
+          // Obtenir l'identifiant de l'utilisateur du message
+          var usermessageId = messageContainer.data('usermessage-id');
 
-          // Afficher le pop-up de modification avec SweetAlert2
-          Swal.fire({
-            title: 'Modifier le message',
-            html: '<input type="text" id="edit-message-input" class="swal2-input" value="' + currentContent + '">',
-            showCancelButton: true,
-            confirmButtonText: 'Enregistrer',
-            cancelButtonText: 'Annuler',
-            preConfirm: function() {
-              return $('#edit-message-input').val();
-            }
-          }).then(function(result) {
-            if (result.isConfirmed) {
-              // Obtenir le nouveau contenu du message depuis le pop-up
-              var newContent = result.value;
+          // Vérifier si l'utilisateur est autorisé à modifier le message
+          if (localStorage.getItem('userId') == usermessageId) {
+            // Obtenir le contenu actuel du message
+            var currentContent = messageContainer.find('.message-content').text();
 
-              // Appeler la fonction pour mettre à jour le message
-              updateMessage(messageId, newContent);
-            }
-          });
+            // Afficher le pop-up de modification avec SweetAlert2
+            Swal.fire({
+              title: 'Modifier le message',
+              html: '<input type="text" id="edit-message-input" class="swal2-input" value="' + currentContent + '">',
+              showCancelButton: true,
+              confirmButtonText: 'Enregistrer',
+              cancelButtonText: 'Annuler',
+              preConfirm: function() {
+                return $('#edit-message-input').val();
+              }
+            }).then(function(result) {
+              if (result.isConfirmed) {
+                // Obtenir le nouveau contenu du message depuis le pop-up
+                var newContent = result.value;
+
+                // Appeler la fonction pour mettre à jour le message
+                updateMessage(messageId, newContent);
+              }
+            });
+          } else {
+            Swal.fire('Accès refusé', 'Vous ne pouvez pas modifier un message dans le chat qui n\'est pas le vôtre.', 'error');
+          }
         });
 
         deleteIcon.click(function() {

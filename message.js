@@ -104,28 +104,38 @@ $(document).ready(function() {
            
             // ...
           });
-  
           deleteIcon.click(function() {
             // Obtenir le conteneur du message parent
             var messageContainer = $(this).closest('.message-container');
           
-            // Obtenir l'identifiant du message à supprimer et verfier si l'utilisateur a le droit de suppimer ce message
+            // Obtenir l'identifiant du message à supprimer et vérifier si l'utilisateur a le droit de supprimer ce message
             var messageId = messageContainer.data('message-id');
             var usermessageId = messageContainer.data('usermessage-id');
           
+            // Vérifier les conditions pour afficher le pop-up de confirmation
+            if (localStorage.getItem('userId') == usermessageId) {
+              // Afficher le pop-up de confirmation avec SweetAlert2
+              Swal.fire({
+                title: 'Confirmation de suppression',
+                text: 'Êtes-vous sûr de vouloir supprimer ce message ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Supprimer',
+                cancelButtonText: 'Annuler'
+              }).then(function(result) {
+                if (result.isConfirmed) {
+                  // Appeler la fonction pour supprimer le message
+                  deleteMessage(messageId, messageContainer);
           
-            // Appeler la fonction pour supprimer le message
-            if (localStorage.getItem('userId')==usermessageId ){
-              deleteMessage(messageId, messageContainer);
-              alert("message supprimé")
-            }  
-            else{
-              alert("Vous ne pouvez pas supprimer un message  qui n'est pas le votre dans le chat");
+                  // Afficher une alerte de suppression réussie avec SweetAlert2
+                  Swal.fire('Suppression réussie', 'Le message a été supprimé avec succès.', 'success');
+                }
+              });
+            } else {
+              Swal.fire('Accès refusé', 'Vous ne pouvez pas supprimer un message qui n\'est pas le vôtre dans le chat.', 'error');
             }
-
-            
           });
-  
+          
           // Créer le conteneur des icônes
           var iconsContainer = $('<div>').addClass('message-icons');
           iconsContainer.append(editIcon, deleteIcon);

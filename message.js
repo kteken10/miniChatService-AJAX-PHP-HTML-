@@ -72,7 +72,7 @@ $(document).ready(function() {
     });
   }
 
-  // Fonction pour afficher les messages
+  
  // Fonction pour afficher les messages
 function displayMessages(messages) {
   var messagesContainer = $('#messages');

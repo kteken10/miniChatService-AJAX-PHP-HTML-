@@ -164,7 +164,7 @@ class MessageDAO {
     $pdo = new PDO("mysql:host=localhost;dbname=chat_db", "root", "");
 
     // Requête SQL pour récupérer les messages par l'ID du chat
-    $query = "SELECT * FROM messages WHERE id_chat = :chatId";
+    $query = "SELECT * FROM messages WHERE id_chat = :chatId ORDER BY id DESC";
     $statement = $pdo->prepare($query);
     $statement->bindParam(":chatId", $chatId);
     $statement->execute();

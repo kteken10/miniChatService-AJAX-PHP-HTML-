@@ -122,14 +122,16 @@ switch ($method) {
     $messageController->updateMessage($data);
     break;
 
-  case 'DELETE':
-    // Récupération de l'ID du message à supprimer
-    $id = $_GET['id'];
-    // Affichage de l'ID pour débogage
-    error_log('DELETE message ID: ' . $id);
-    // Appel de la méthode deleteMessage avec l'ID du message
-    $messageController->deleteMessage($id);
-    break;
+    case 'DELETE':
+      // Récupération de l'ID du message à supprimer
+      parse_str(file_get_contents('php://input'), $data);
+      $id = $data['messageId'];
+      // Affichage de l'ID pour débogage
+      error_log('DELETE message ID: ' . $id);
+      // Appel de la méthode deleteMessage avec l'ID du message
+      $messageController->deleteMessage($id);
+      break;
+    
 
   default:
     // Méthode non prise en charge

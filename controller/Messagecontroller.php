@@ -115,7 +115,8 @@ switch ($method) {
 
   case 'PUT':
     // Récupération des données JSON de la requête
-    $data = json_decode(file_get_contents('php://input'), true);
+    // Récupération de l'ID du message à supprimer
+    parse_str(file_get_contents('php://input'), $data);
     // Affichage des données pour débogage
     error_log('PUT data: ' . print_r($data, true));
     // Appel de la méthode updateMessage avec les données du message

@@ -89,7 +89,7 @@ $(document).ready(function() {
       (function(message) {
         getUserPromise.then(function(pseudo) {
           // Créer les éléments HTML pour afficher le message
-          var messageContainer = $('<div>').addClass('message-container').attr('data-message-id', message.id);
+          var messageContainer = $('<div>').addClass('message-container').attr('data-message-id', message.id).attr('data-usermessage-id', message.id_utilisateur);;
           var userElement = $('<div>').addClass('message-user').text(pseudo);
           var contentElement = $('<div>').addClass('message-content').text(message.contenu);
           var timestampElement = $('<div>').addClass('message-timestamp').text(message.date_creation);
@@ -109,12 +109,21 @@ $(document).ready(function() {
             // Obtenir le conteneur du message parent
             var messageContainer = $(this).closest('.message-container');
           
-            // Obtenir l'identifiant du message à supprimer
+            // Obtenir l'identifiant du message à supprimer et verfier si l'utilisateur a le droit de suppimer ce message
             var messageId = messageContainer.data('message-id');
-            console.log(messageId);
+            var usermessageId = messageContainer.data('usermessage-id');
+          
           
             // Appeler la fonction pour supprimer le message
-            deleteMessage(messageId, messageContainer);
+            if (localStorage.getItem('userId')==usermessageId ){
+              deleteMessage(messageId, messageContainer);
+              alert("message supprimé")
+            }  
+            else{
+              alert("Vous ne pouvez pas supprimer un message  qui n'est pas le votre dans le chat");
+            }
+
+            
           });
   
           // Créer le conteneur des icônes

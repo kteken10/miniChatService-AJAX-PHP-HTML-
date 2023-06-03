@@ -89,7 +89,7 @@ $(document).ready(function() {
       (function(message) {
         getUserPromise.then(function(pseudo) {
           // Créer les éléments HTML pour afficher le message
-          var messageContainer = $('<div>').addClass('message-container');
+          var messageContainer = $('<div>').addClass('message-container').attr('data-message-id', message.id);
           var userElement = $('<div>').addClass('message-user').text(pseudo);
           var contentElement = $('<div>').addClass('message-content').text(message.contenu);
           var timestampElement = $('<div>').addClass('message-timestamp').text(message.date_creation);
@@ -146,7 +146,7 @@ $(document).ready(function() {
       url: 'controller/Messagecontroller.php',
       dataType: 'json',
       type: 'DELETE', // Utiliser la méthode DELETE
-      data: { messageId: 438 },
+      data: { messageId: messageId },
       success: function(response) {
         if (response.success) {
           // Supprimer le conteneur du message de l'interface

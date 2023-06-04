@@ -53,12 +53,21 @@ h1 {
   
   margin-left: -215px;
 }
+
+  /* Style pour l'en-tête */
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+  }
+ 
+
 #pseudo-form .form-group {
   padding: 10px 20px;
   background-color: #f8f8f8;
   color: #080808;
   border: none;
   border-radius: 5px;
+  height: 200px;
   cursor: pointer;
   margin-bottom: 10px;
 }

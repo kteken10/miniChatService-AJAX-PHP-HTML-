@@ -1,6 +1,5 @@
 $(document).ready(function() {
-    var chatId; // Variable globale accessible à toutes les autres fonctions
-  
+    
     // Fonction pour récupérer et afficher la liste des chats
     function afficherListeChats() {
       $.ajax({
@@ -12,17 +11,18 @@ $(document).ready(function() {
             var chats = response.chats;
             var chatListDiv = $('#chat-list');
             var selectChat = $('<select id="chat-select" class="form-control">');
-  
-            // chatListDiv.empty();
+    
             for (var i = 0; i < chats.length; i++) {
-                var chat = chats[i];
-                var optionChat = $('<option>').val(chat.id).text(chat.nom);
-                selectChat.append(optionChat);
-              }
-              
-              
-  
+              var chat = chats[i];
+              var optionChat = $('<option>').val(chat.id);
+              optionChat.attr('data-icon', 'fas fa-comment-alt'); // Ajouter l'attribut data-icon avec la classe d'icône Font Awesome
+              optionChat.text(chat.nom);
+              selectChat.append(optionChat);
+            }
+    
             chatListDiv.append(selectChat);
+    
+          
           } else {
             console.log('Erreur lors de la récupération des chats.');
           }
@@ -32,7 +32,7 @@ $(document).ready(function() {
         }
       });
     }
-
+    
     // Appeler la fonction pour récupérer la liste des chats au chargement de la page
     afficherListeChats();
    

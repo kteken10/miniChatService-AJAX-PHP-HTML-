@@ -275,7 +275,7 @@ function updateMessage(messageId, newContent) {
   }
 
   // Appeler la fonction getMessages() au chargement de la page de chat
-  if (window.location.pathname === '/Yossa/gaetan_yossa_chat/gaetan_yossa_chat/chat.html') {
+  if (window.location.pathname === '/gaetan_yossa_chat/chat.html') {
     // Récupérer le chatId depuis le localStorage
     var chatId = localStorage.getItem('chatId');
     getMessages(chatId); // Passer le chatId à la fonction getMessages

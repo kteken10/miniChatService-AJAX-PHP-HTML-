@@ -27,7 +27,7 @@ $(document).ready(function() {
       };
 
       $.ajax({
-        url: 'controller/Messagecontroller.php',
+        url: 'php/controller/Messagecontroller.php',
         dataType: 'json',
         type: 'POST',
         data: message,
@@ -52,7 +52,7 @@ $(document).ready(function() {
   function getUserPseudo(userId) {
     return new Promise(function(resolve, reject) {
       $.ajax({
-        url: 'controller/Utilisateurcontroller.php',
+        url: 'php/controller/Utilisateurcontroller.php',
         type: 'GET',
         dataType: 'json',
         data: {
@@ -198,7 +198,7 @@ function displayMessages(messages) {
 function deleteMessage(messageId, messageContainer) {
   // Faire une requête AJAX pour supprimer le message en utilisant l'identifiant
   $.ajax({
-    url: 'controller/Messagecontroller.php',
+    url: 'php/controller/Messagecontroller.php',
     dataType: 'json',
     type: 'DELETE', // Utiliser la méthode DELETE
     data: { messageId: messageId },
@@ -219,7 +219,7 @@ function deleteMessage(messageId, messageContainer) {
 function updateMessage(messageId, newContent) {
   // Faire une requête AJAX pour mettre à jour le message en utilisant l'identifiant et le nouveau contenu
   $.ajax({
-    url: 'controller/Messagecontroller.php',
+    url: 'php/controller/Messagecontroller.php',
     dataType: 'json',
     type: 'PUT', // Utiliser la méthode PUT
     data: {
@@ -254,7 +254,7 @@ function updateMessage(messageId, newContent) {
   // Fonction pour récupérer les messages depuis le serveur
   function getMessages(chatId) {
     $.ajax({
-      url: 'controller/Messagecontroller.php',
+      url: 'php/controller/Messagecontroller.php',
       type: 'GET',
       dataType: 'json',
       data: {

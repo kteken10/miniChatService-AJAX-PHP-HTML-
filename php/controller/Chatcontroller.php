@@ -1,5 +1,5 @@
 <?php
-require_once 'C:\wamp64\www\Yossa\gaetan_yossa_chat\gaetan_yossa_chat\services\services.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .  '/gaetan_yossa_chat/php/services/services.php';
 
 
 //Gestion des Chats

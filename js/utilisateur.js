@@ -19,7 +19,7 @@ $(document).ready(function() {
     if (pseudoInput !== '' && chatId !== '') {
       localStorage.setItem('chatId', chatId);
       $.ajax({
-        url: 'controller/Utilisateurcontroller.php',
+        url: 'php/controller/Utilisateurcontroller.php',
         type: 'POST',
         dataType: 'json',
         data: {
